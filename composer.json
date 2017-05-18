@@ -1,5 +1,5 @@
 {
-  "name": "krakwebpl/ragnarok-exchange-protocol",
+  "name": "krakwebpl/ragnarok-protocol",
   "type": "symfony/bundle",
   "description": "ragnarok exchange protocol tools",
   "authors": [
