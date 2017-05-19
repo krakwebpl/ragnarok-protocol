@@ -13,13 +13,15 @@ use Krakweb\RagnarokProtocol\Protocol\RagnarokBaseExchangeMessage;
 
 interface ExchangeSenderContract
 {
-    function send(RagnarokBaseExchangeMessage $message);
+    public function send(RagnarokBaseExchangeMessage $message);
 
-    function extractHeaders(RagnarokBaseExchangeMessage $message, $authorizationHeader);
+    public function extractHeaders(RagnarokBaseExchangeMessage $message, $authorizationHeader);
 
-    function setServiceDiscovery(ServiceDiscoveryContract $serviceDiscovery);
+    public function setServiceDiscovery(ServiceDiscoveryContract $serviceDiscovery);
 
-    function setProducer($producer);
+    public function setProducer($producer);
 
-    function setMSConnectorFactory(MSConnectorFactoryContract $connectorFactory);
+    public function setMSConnectorFactory(MSConnectorFactoryContract $connectorFactory);
+
+
 }

@@ -19,6 +19,8 @@ class MicroserviceInfo
     
     private $description;
 
+    private $authorization;
+
     /**
      * MicroserviceInfo constructor.
      * @param $key
@@ -26,12 +28,13 @@ class MicroserviceInfo
      * @param $url
      * @param $description
      */
-    public function __construct($key, $name, $url, $description)
+    public function __construct($key, $name, $url, $description, $authorization)
     {
         $this->key = $key;
         $this->name = $name;
         $this->url = $url;
         $this->description = $description;
+        $this->authorization = $authorization;
     }
 
     /**
@@ -65,8 +68,15 @@ class MicroserviceInfo
     {
         return $this->description;
     }
-    
-    
 
+    /**
+     * @return mixed
+     */
+    public function getAuthorization()
+    {
+        return $this->authorization;
+    }
+    
+    
 
 }
