@@ -13,6 +13,7 @@ use Krakweb\RagnarokProtocol\Interfaces\ExchangeSenderContract;
 use Krakweb\RagnarokProtocol\Interfaces\MSConnectorFactoryContract;
 use Krakweb\RagnarokProtocol\Interfaces\ServiceDiscoveryContract;
 use Krakweb\RagnarokProtocol\Protocol\RagnarokBaseExchangeMessage;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class RagnarokExchangeSender implements ExchangeSenderContract
 {
@@ -24,7 +25,7 @@ class RagnarokExchangeSender implements ExchangeSenderContract
 
     function send(RagnarokBaseExchangeMessage $message)
     {
-
+        throw new HttpException(500, 'exc');
     }
 
     function extractHeaders(RagnarokBaseExchangeMessage $message, $authorizationHeader)

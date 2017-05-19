@@ -9,9 +9,15 @@
 namespace Krakweb\RagnarokProtocol\Interfaces;
 
 
+use Interfaces\BaseConnector;
 use Krakweb\RagnarokProtocol\Microservice\MicroserviceInfo;
 
 interface MSConnectorFactoryContract
 {
+    /**
+     * @param \Krakweb\RagnarokProtocol\Microservice\MicroserviceInfo $info
+     * @param array $headers
+     * @return BaseConnector
+     */
     function makeConnector(MicroserviceInfo $info, array $headers);
 }
