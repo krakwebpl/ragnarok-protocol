@@ -15,7 +15,6 @@ use Psr\Log\LoggerInterface;
 
 interface BaseConnector
 {
-    function encodeMessage(array $data);
     function prepareHeaders(array $headers = []);
     function setLogger(LoggerInterface $logger);
     function log($message, array $context = []);
