@@ -64,6 +64,34 @@ class RagnarokExchangeSender implements ExchangeSenderContract
 
         /** @var BaseConnector $connector */
         $connector = $this->connectorFactory->makeConnector($service, $this->extractHeaders($message, $service->getAuthorization()));
+
+        $logMessage = $message->getLogMessage();
+        $logContext = $message->getLogContext();
+        if (!empty($logMessage)) {
+            $connector->log($logMessage, $logContext);
+        }
+
+        $method = $message->getMethod();
+        $uri = $message->getUri();
+        $data = $message->getData();
+
+        switch ($method) {
+            case 'POST':
+                $response = $connector->postRequest($uri, $data);
+                break;
+            case 'PATCH':
+                $response = $connector->patchRequest($uri, $data);
+                break;
+            case 'DELETE':
+                $response = $connector->deleteRequest($uri);
+                break;
+            case 'GET':
+            default:
+                $response = $connector->getRequest($uri, $data);
+        }
+
+        return $response;
+
     }
 
     public function extractHeaders(RagnarokBaseExchangeMessage $message, $authorizationHeader)
