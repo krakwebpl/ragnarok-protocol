@@ -8,8 +8,6 @@
 
 namespace Krakweb\RagnarokProtocol\Interfaces;
 
-
-use Interfaces\BaseConnector;
 use Krakweb\RagnarokProtocol\Microservice\MicroserviceInfo;
 
 interface MSConnectorFactoryContract

@@ -6,7 +6,7 @@
  * Time: 08:56
  */
 
-namespace Interfaces;
+namespace Krakweb\RagnarokProtocol\Interfaces;
 
 
 use GuzzleHttp\ClientInterface;

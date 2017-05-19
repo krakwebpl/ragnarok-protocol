@@ -9,7 +9,7 @@
 namespace Krakweb\RagnarokProtocol\RagnarokExchangeSender;
 
 
-use Interfaces\BaseConnector;
+use Krakweb\RagnarokProtocol\Interfaces\BaseConnector;
 use Krakweb\RagnarokProtocol\Interfaces\ExchangeSenderContract;
 use Krakweb\RagnarokProtocol\Interfaces\MSConnectorFactoryContract;
 use Krakweb\RagnarokProtocol\Interfaces\ServiceDiscoveryContract;
