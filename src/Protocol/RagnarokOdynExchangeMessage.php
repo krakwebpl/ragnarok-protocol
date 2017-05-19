@@ -62,7 +62,15 @@ class RagnarokOdynExchangeMessage extends RagnarokBaseExchangeMessage
         $message->setEventName($data['eventName']);
 
         return $message;
-        
+    }
+
+    public function prepareHeaders()
+    {
+        return [
+            'X-Request-Id' => $this->requestId,
+            'X-Source-App' => $this->sourceApp,
+            'X-Client-Id' => $this->token,
+        ];
     }
 
 

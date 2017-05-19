@@ -1,0 +1,17 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: gmajta
+ * Date: 18.05.17
+ * Time: 15:51
+ */
+
+namespace Krakweb\RagnarokProtocol\Interfaces;
+
+
+use Krakweb\RagnarokProtocol\Microservice\MicroserviceInfo;
+
+interface MSConnectorFactoryContract
+{
+    function makeConnector(MicroserviceInfo $info, array $headers);
+}

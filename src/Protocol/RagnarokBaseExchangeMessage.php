@@ -269,6 +269,8 @@ abstract class RagnarokBaseExchangeMessage implements Serializable
         return $this->type;
     }
 
+    public abstract function prepareHeaders();
+
     public function serialize()
     {
         $data = [
@@ -289,4 +291,6 @@ abstract class RagnarokBaseExchangeMessage implements Serializable
 
         return $data;
     }
+    
+    
 }

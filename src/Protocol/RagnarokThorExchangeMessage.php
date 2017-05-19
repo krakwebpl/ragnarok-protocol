@@ -85,5 +85,15 @@ class RagnarokThorExchangeMessage extends RagnarokBaseExchangeMessage
         return $message;
     }
 
+    public function prepareHeaders()
+    {
+        return [
+            'X-Request-Id' => $this->requestId,
+            'X-Source-App' => $this->sourceApp,
+            'X-Client-Id' => $this->keyApi,
+            'X-Keyapp' => $this->keyApp
+        ];
+    }
+
 
 }
