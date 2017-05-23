@@ -46,17 +46,40 @@ class RagnarokExchangeSender implements ExchangeSenderContract
     {
         $target = $message->getTarget();
         $serviceKey = $message->getServiceKey();
+        $commandName = $message->getCommandName();
+        $eventName = $message->getEventName();
 
         if ($target == RagnarokBaseExchangeMessage::TARGET_API) {
             if ($serviceKey == RagnarokBaseExchangeMessage::SERVICE_KEY_ALL) {
                 throw new HttpException(500, 'cant use target set to api with serviceName set to all');
             }
+        } elseif ($target == RagnarokBaseExchangeMessage::TARGET_QUEUE) {
+            if (empty($commandName) && empty($eventName)) {
+                throw new HttpException(500, 'cant use target set to queue with empty commandName and eventName');
+            }
         }
     }
 
     private function  sendByQueue(RagnarokBaseExchangeMessage $message) {
+        $data = $message->getData();
+        $routingKey = $this->generateRoutingKey($message);
+        $headers = array_merge($this->extractHeaders($message, false), ['X-Routing-Key' => $routingKey]);
 
+        try {
+            $this->producer->publish($data, $routingKey, $headers);
+        } catch (\Exception $e) {
+            return [500, ["message" => "Nie udało się zakolejkować akcji. Powód: ". $e->getMessage()]];
+        }
+
+        $logMessage = $message->getLogMessage();
+        $logContext = $message->getLogContext();
+        if (!empty($logMessage)) {
+            $this->producer->log($logMessage, $logContext, $headers);
+        }
+
+        return [200, ["message" => "Akcja została zakolejkowana"]];
     }
+
 
     private function sendByAPI(RagnarokBaseExchangeMessage $message) {
         /** @var MicroserviceInfo $service */
@@ -118,5 +141,26 @@ class RagnarokExchangeSender implements ExchangeSenderContract
     public function setMSConnectorFactory(MSConnectorFactoryContract $connectorFactory)
     {
         $this->connectorFactory = $connectorFactory;
+    }
+
+    private function generateRoutingKey(RagnarokBaseExchangeMessage $message)
+    {
+        $routingKeyPart = $message->getRoutingKey();
+        $commandName = $message->getCommandName();
+        $eventName = $message->getEventName();
+        $serviceName = "";
+        if (
+            $routingKeyPart == RagnarokBaseExchangeMessage::ROUTING_KEY_DIRECT
+            || $routingKeyPart == RagnarokBaseExchangeMessage::ROUTING_KEY_EXCEPT
+        ) {
+            /** @var MicroserviceInfo $service */
+            $service = $this->serviceDiscovery->getServiceByKey($message->getServiceKey());
+            $serviceName = $service->getName();
+        }
+
+        return $routingKeyPart
+        . (!empty($serviceName) ? '.' . $serviceName : '')
+        . (!empty($commandName) ? '.command.' . $commandName : '')
+        . (!empty($eventName) ? '.event.' . $eventName : '');
     }
 }
