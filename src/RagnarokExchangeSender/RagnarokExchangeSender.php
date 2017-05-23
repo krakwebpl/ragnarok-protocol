@@ -15,6 +15,7 @@ use Krakweb\RagnarokProtocol\Interfaces\MSConnectorFactoryContract;
 use Krakweb\RagnarokProtocol\Interfaces\ServiceDiscoveryContract;
 use Krakweb\RagnarokProtocol\Microservice\MicroserviceInfo;
 use Krakweb\RagnarokProtocol\Protocol\RagnarokBaseExchangeMessage;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class RagnarokExchangeSender implements ExchangeSenderContract
@@ -26,6 +27,9 @@ class RagnarokExchangeSender implements ExchangeSenderContract
 
     /** @var  MSConnectorFactoryContract */
     private $connectorFactory;
+    
+    /** @var  LoggerInterface */
+    private $logger;
 
 
     public function send(RagnarokBaseExchangeMessage $message)
@@ -142,6 +146,21 @@ class RagnarokExchangeSender implements ExchangeSenderContract
     {
         $this->connectorFactory = $connectorFactory;
     }
+
+    public function setLogger(LoggerInterface $logger)
+    {
+        $this->logger = $logger;
+    }
+
+    public function log($message, array $context = [])
+    {
+        if (!$this->logger) {
+            return;
+        }
+
+        $this->logger->info($message, $context);
+    }
+
 
     private function generateRoutingKey(RagnarokBaseExchangeMessage $message)
     {

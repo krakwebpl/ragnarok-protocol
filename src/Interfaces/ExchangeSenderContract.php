@@ -10,6 +10,7 @@ namespace Krakweb\RagnarokProtocol\Interfaces;
 
 
 use Krakweb\RagnarokProtocol\Protocol\RagnarokBaseExchangeMessage;
+use Psr\Log\LoggerInterface;
 
 interface ExchangeSenderContract
 {
@@ -23,5 +24,8 @@ interface ExchangeSenderContract
 
     public function setMSConnectorFactory(MSConnectorFactoryContract $connectorFactory);
 
+    public function setLogger(LoggerInterface $logger);
+
+    public function log($message, array $context = []);
 
 }
