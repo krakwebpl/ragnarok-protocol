@@ -168,18 +168,10 @@ class RagnarokExchangeSender implements ExchangeSenderContract
         $routingKeyPart = $message->getRoutingKey();
         $commandName = $message->getCommandName();
         $eventName = $message->getEventName();
-        $serviceName = "";
-        if (
-            $routingKeyPart == RagnarokBaseExchangeMessage::ROUTING_KEY_DIRECT
-            || $routingKeyPart == RagnarokBaseExchangeMessage::ROUTING_KEY_EXCEPT
-        ) {
-            /** @var MicroserviceInfo $service */
-            $service = $this->serviceDiscovery->getServiceByKey($message->getServiceKey());
-            $serviceName = $service->getName();
-        }
+        $serviceName = $message->getServiceKey();
 
         return $routingKeyPart
-        . (!empty($serviceName) ? '.' . $serviceName : '')
+        .  '.' . $serviceName 
         . (!empty($commandName) ? '.command.' . $commandName : '')
         . (!empty($eventName) ? '.event.' . $eventName : '');
     }
