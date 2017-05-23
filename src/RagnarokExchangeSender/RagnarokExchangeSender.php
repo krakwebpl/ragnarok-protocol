@@ -79,6 +79,7 @@ class RagnarokExchangeSender implements ExchangeSenderContract
         $logContext = $message->getLogContext();
         if (!empty($logMessage)) {
             $this->producer->log($logMessage, $logContext, $headers);
+            $this->log($logMessage, $logContext);
         }
 
         return [200, ["message" => "Akcja została zakolejkowana"]];
@@ -96,7 +97,6 @@ class RagnarokExchangeSender implements ExchangeSenderContract
         $logContext = $message->getLogContext();
         if (!empty($logMessage)) {
             $connector->log($logMessage, $logContext);
-            $this->log($logMessage, $logContext);
         }
 
         $method = $message->getMethod();
